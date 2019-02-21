@@ -20,13 +20,22 @@ window.builtins = {};
 // ex. builtins.trim('Hello World!    ') -> 'Hello World!'
 
 builtins.trim = function(str) {
-  let newStr = "";
+  //let newStr = "";
+  let firstInd = 0;
+  let lastInd = 0;
   for (let i = 0; i < str.length; i++) {
     if (str[i] !== " ") {
-      newStr += str[i];
+      firstInd = i;
+      break;
     }
   }
-  return newStr;
+  for (let i = str.length - 1; i >= 0; i--) {
+    if (str[i] !== " ") {
+      lastInd = i;
+      break;
+    }
+  }
+  return str.slice(firstInd, lastInd + 1);
 };
 
 // ----------------------------------------------------------------------------
@@ -45,13 +54,25 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  if (searchString.indexOf(sourceString)) {
+  let searchInd = 0;
+  for (let i = 0; i < sourceString.length; i++) {
+    if (searchInd === searchString.length) {
+      return true;
+    }
+    if (sourceString[i] === searchString[searchInd]) {
+      searchInd += 1; 
+    }
+    else {
+      searchInd = 0;
+    }
+  }
+  if (searchInd === searchString.length) {
     return true;
   } else {
     return false;
   }
 };
-
+// "Machine Learning"  "kundi"
 // ----------------------------------------------------------------------------
 
 // Exercise 3. Rewriting reverse()
@@ -65,6 +86,9 @@ builtins.search = function(sourceString, searchString) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  let next = arr.unshift();
-  return builtins.reverse(arr).concat(next);
+  let newArr = []
+  for (let i = arr.length - 1; i >= 0; i--) {
+    newArr.push(arr[i])
+  }
+  return newArr;
 };
